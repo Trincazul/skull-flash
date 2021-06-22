@@ -1,6 +1,6 @@
 from hash_generator import hashgen
 
-def menuindex():
+def image():
     print('''
 ███████████████████████████
 ███████▀▀▀░░░░░░░▀▀▀███████
@@ -32,7 +32,10 @@ def menuindex():
  |  __|   | |  / _` | / __| | '_ |
  | |      | | | (_| | \__ \ | | | |
  |_|      |_|  \__,_| |___/ |_| |_|
+''')
 
+def menuindex():
+    print('''
  Selecione uma opção :
              1) Criptografia
              2) Ping
@@ -48,4 +51,7 @@ def menuindex():
     else:
         print("Numero digitado não encontrado")
 
+    while index != 4:
+        return menuindex()
+image()
 menuindex()

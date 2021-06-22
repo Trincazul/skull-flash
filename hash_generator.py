@@ -2,9 +2,8 @@ import hashlib
 
 def hashgen():
     introhash = input("Digite o texto a ser gerado a Hash: ")
-    resultado = hashlib.md5(introhash.encode('utf-8'))
 
-    menuhash = int(input('''##### MENU -  Hash #####
+    menuhash = int(input('''Menu de Criptografia, Hash
                         1) - MD5
                         2) - SHA1
                         3) - SHA256
