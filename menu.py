@@ -86,6 +86,8 @@ def menuindex():
         ipexterno()
     elif index == 8:
         opbx()
+    elif index == 9:
+        print("Muito Obrigado por utilizar o Skull Flash !")
     else:
         print("Numero digitado não encontrado")
 
