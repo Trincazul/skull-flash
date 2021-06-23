@@ -4,6 +4,8 @@ from wordlist import wordlist
 from webscr import webscr
 from webcrawler import start
 from phonenum import phonenum
+from ipexter import ipexterno
+from opbx import opbx
 
 def image():
     print('''
@@ -47,7 +49,10 @@ def menuindex():
              3) Gerar Wordlist (Força Bruta)
              4) Web Scraping (extração de dados)
              5) Web Crawler
-             6) Rastreio de Telefone''')
+             6) Rastreio de Telefone
+             7) Verificar IP externo
+             8) Abrir Navegador
+             9) Sair do programa''')
     index = int(input())
     if index == 1:
         hashgen()
@@ -72,13 +77,17 @@ def menuindex():
         webscr()
     elif index == 5:
         print("Adicione o site para ler e indexar as paginas lembre-se de utilizar sites com http:// : ")
-        webc = input()
-        start(webc)
+        url = input()
+        start(url)
     elif index == 6:
         print("Rastreio")
         phonenum()
+    elif index == 7:
+        ipexterno()
+    elif index == 8:
+        opbx()
     else:
         print("Numero digitado não encontrado")
 
-    while index != 7:
+    while index != 9:
         return menuindex()

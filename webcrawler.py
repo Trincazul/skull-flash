@@ -48,5 +48,5 @@ def create_dictionary(clean_list):
     print(top)
 
 if __name__ == '__main__':
-    start("https://www.geeksforgeeks.org/python-programming-language/?ref=shm")
+    start()
     #adicionar url aqui
