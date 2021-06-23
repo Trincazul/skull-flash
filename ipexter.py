@@ -21,7 +21,7 @@ def ipexterno():
 
     root = Tk()
 
-    root.title('Abrir Browser')
+    root.title('IP Externo da Maquina')
     root.geometry('400x300')
 
     my = Label(root, text="IP: {4}\nRegião: {1}\nPais: {2}\nCidade: {3}\nOrg: {0}".format(org,regiao,pais,cid,ip)).pack(pady=20)
