@@ -13,12 +13,16 @@
 
 > With the current growing insecurity of the internet and the increase in the leakage of confidential personal and business data, we thought of developing a tool that can prevent data theft attempts and data manipulation, not only that, but also an aid tool, both for professionals working in the area of information security, such as students who are starting to enter the programming area.
 
+>Primeiramente deve ser feita a criação de uma virtualenv do projeto, com o comando virtualenv venv, depois de ativar a venv realizar a instalação das dependencias do projeto com o comando pip install -r requirements.txt, depois a execução do python main.py
+
+>First, the creation of a project's virtualenv must be done, with the command virtualenv venv, after activating the venv, perform the installation of the project's dependencies with the command pip install -r requirements.txt, then the execution of python main.py 
+
 ## Install
 
 ```sh
-Primeiramente deve ser feita a criação de uma virtualenv do projeto, com o comando virtualenv venv, depois de ativar a venv realizar a instalação das dependencias do projeto com o comando pip install -r requirements.txt, depois a execução do python main.py
+pip install -r requirements.txt
 
-First, the creation of a project's virtualenv must be done, with the command virtualenv venv, after activating the venv, perform the installation of the project's dependencies with the command pip install -r requirements.txt, then the execution of python main.py 
+python main.py
 ```
 
 ## Usage
@@ -30,7 +34,6 @@ pip install -r requirements.txt
 ## Run tests
 
 ```sh
-python main.py
 Atualmente não foi implementada os testes do projeto.
 
 Currently, the project tests have not been implemented.
