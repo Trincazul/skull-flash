@@ -11,3 +11,5 @@ def webscr():
     findsoup = input("Palavra chave ('tag') da varredura: ")
 
     print(soup.find(findsoup))
+
+

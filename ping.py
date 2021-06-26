@@ -1,5 +1,5 @@
 import os
-# modificado para funcionar no sistema MacOS
+# modificado para funcionar em diferentes sistemas
 def macping():
     print("#" * 60)
     ping_host = input("Digite o IP ou Host a ser verificado: ")

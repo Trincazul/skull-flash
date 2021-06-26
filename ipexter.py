@@ -9,7 +9,6 @@ def ipexterno():
 
     resposta = urlopen(url)
     dados = json.load(resposta)
-
     ip = dados['ip']
     org = dados['org']
     cid = dados['city']
