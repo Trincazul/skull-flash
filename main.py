@@ -1,7 +1,7 @@
-from hash_generator import hashgen
-from ping import macping, winping
-from wordlist import wordlist
-from menu import image, menuindex
+from sample.hash_generator import hashgen
+from sample.ping import macping, winping
+from sample.wordlist import wordlist
+from sample.menu import image, menuindex
 
 # inicio
 def main():

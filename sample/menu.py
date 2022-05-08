@@ -1,11 +1,11 @@
-from hash_generator import hashgen
-from ping import macping, winping
-from wordlist import wordlist
-from webscr import webscr
-from webcrawler import start
-from phonenum import phonenum
-from ipexter import ipexterno
-from opbx import opbx
+from sample.hash_generator import hashgen
+from sample.ping import macping, winping
+from sample.wordlist import wordlist
+from sample.webscr import webscr
+from sample.webcrawler import start
+from sample.phonenum import phonenum
+from sample.ipexter import ipexterno
+from sample.opbx import opbx
 
 def image():
     print('''
@@ -44,15 +44,15 @@ def image():
 def menuindex():
     print('''
  Selecione uma opção :
-             1) Criptografia
-             2) Ping
-             3) Gerar Wordlist (Força Bruta)
-             4) Web Scraping (extração de dados)
-             5) Web Crawler
-             6) Rastreio de Telefone
-             7) Verificar IP externo
-             8) Abrir Navegador
-             9) Sair do programa''')
+        1) Criptografia
+        2) Ping
+        3) Gerar Wordlist (Força Bruta)
+        4) Web Scraping (extração de dados)
+        5) Web Crawler
+        6) Rastreio de Telefone
+        7) Verificar IP externo
+        8) Abrir Navegador
+        9) Sair do programa''')
     index = int(input())
     if index == 1:
         hashgen()
