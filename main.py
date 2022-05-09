@@ -3,7 +3,7 @@ from sample.ping import macping, winping
 from sample.wordlist import wordlist
 from sample.menu import image, menuindex
 
-# inicio
+# main run
 def main():
     image()
     menuindex()

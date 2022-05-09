@@ -44,9 +44,14 @@ class TestSquare(TestCase):
         resposta = urlopen(url)
         dados = json.load(resposta)
         regiao = dados['region']
-        regiao == 'São Paulo'
+        regiao == ''
+        # Add region to test the api
         self.assertTrue(regiao)
 
+    def test_ping_ex_win(self):
+        ping_host(127.0.0.1)
+        ping = os.system('ping -n 6 {}'.format(ping_host))
+        self.assertTrue(ping)
 
 if __name__ == '__main__':
     main()
