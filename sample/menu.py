@@ -74,7 +74,9 @@ def menuindex():
         wordlist()
     elif index == 4:
         print("Web Scraping")
-        webscr()
+        url = input("Selecione o site para fazer varredura, lembre-se de adicionar o http:// : ")
+        keyword = input("Palavra chave ('tag') da varredura: ")
+        webscr(url, keyword)
     elif index == 5:
         print("Adicione o site para ler e indexar as paginas lembre-se de utilizar sites com http:// : ")
         url = input()
