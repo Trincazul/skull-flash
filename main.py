@@ -1,12 +1,9 @@
-from sample.hash_generator import hashgen
-from sample.ping import macping, winping
-from sample.wordlist import wordlist
-from sample.menu import image, menuindex
+from sample import hash_generator, ping, wordlist, menu
 
 # main run
 def main():
-    image()
-    menuindex()
+    menu.image()
+    menu.menuindex()
 
 if __name__ == "__main__":
     main()
