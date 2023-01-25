@@ -16,7 +16,8 @@ def hashgen():
                         3) - SHA256
                         4) - SHA512
                         Digite o numero do hash a ser gerado: '''))
-
+                        
+#Utilizando a função built-in do python .name para obter o nome da função, dessa forma o usuário sabe o tipo de hash que foi gerado
     if menuhash in hash_options:
         result = hash_options[menuhash](introhash.encode('utf-8'))
         print(f"O {hash_options[menuhash].__name__} hash do texto: {introhash} é: {result.hexdigest()}")
