@@ -49,7 +49,7 @@ class TestSquare(TestCase):
         self.assertTrue(regiao)
 
     def test_ping_ex_win(self):
-        ping_host(127.0.0.1)
+        ping_host = "127.0.0.1"
         ping = os.system('ping -n 6 {}'.format(ping_host))
         self.assertTrue(ping)
 
