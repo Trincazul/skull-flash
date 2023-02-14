@@ -46,7 +46,7 @@ Currently, the project tests have not been implemented.
 * Website: https://github.com/Trincazul
 * Twitter: [@Drewvilla](https://twitter.com/Drewvilla)
 * Github: [@Trincazul](https://github.com/Trincazul)
-* Github: [@JosephDeveloperBR](https://github.com/JosephDeveloperBR)
+* Github: [@j-o-s-e-PH](https://github.com/j-o-s-e-PH)
 * LinkedIn: [@endriw-villa](https://linkedin.com/in/endriw-villa)
 
 ## 🤝 Contributing
