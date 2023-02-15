@@ -19,10 +19,10 @@ def ipexterno():
     print('Detalhes do IP externo\n')
     print('IP: {4}\nRegião: {1}\nPais: {2}\nCidade: {3}\nOrg: {0}\nTimezone: {5}'.format(org,regiao,pais,cid,ip,timezone))
 
-    root = Tk()
+    #root = Tk()
 
-    root.title('IP Externo da Maquina')
-    root.geometry('400x300')
+    #root.title('IP Externo da Maquina')
+    #root.geometry('400x300')
 
-    my = Label(root, text="IP: {4}\nRegião: {1}\nPais: {2}\nCidade: {3}\nOrg: {0}\nTimezone: {5}".format(org,regiao,pais,cid,ip,timezone)).pack(pady=20)
-    root.mainloop()
+    #my = Label(root, text="IP: {4}\nRegião: {1}\nPais: {2}\nCidade: {3}\nOrg: {0}\nTimezone: {5}".format(org,regiao,pais,cid,ip,timezone)).pack(pady=20)
+    #root.mainloop()
