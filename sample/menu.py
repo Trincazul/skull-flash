@@ -1,11 +1,10 @@
 from sample.hash_generator import hashgen
-from sample.ping import macping, winping
+from sample.mapping import main as mapping
 from sample.wordlist import wordlist
 from sample.webscr import webscr
 from sample.webcrawler import start
 from sample.phonenum import phonenum
 from sample.ipexter import ipexterno
-from sample.opbx import opbx
 
 def image():
     print('''
@@ -45,29 +44,18 @@ def menuindex():
     print('''
  Selecione uma opção :
         1) Criptografia
-        2) Ping
+        2) Mapeamento de rede IP
         3) Gerar Wordlist (Força Bruta)
         4) Web Scraping (extração de dados)
         5) Web Crawler
         6) Rastreio de Telefone
         7) Verificar IP externo
-        8) Abrir Navegador
-        9) Sair do programa''')
+        8) Sair do programa''')
     index = int(input())
     if index == 1:
         hashgen()
     elif index == 2:
-        print('''Selecione o sistema operacional
-                 1) - Mac ou Linux
-                 2) - Windows''')
-        sisop = int(input())
-        if sisop == 1:
-            macping()
-        elif sisop == 2:
-            winping()
-        else:
-            print('Opção informada incorreta !')
-            return menuindex()
+        mapping()
 
     elif index == 3:
         print("Wordlist")
@@ -87,11 +75,9 @@ def menuindex():
     elif index == 7:
         ipexterno()
     elif index == 8:
-        opbx()
-    elif index == 9:
         print("Muito Obrigado por utilizar o Skull Flash !")
     else:
         print("Numero digitado não encontrado")
 
-    while index != 9:
+    while index != 8:
         return menuindex()

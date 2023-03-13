@@ -4,7 +4,6 @@ import re
 import json
 from urllib.request import urlopen
 import webbrowser
-from tkinter import *
 import sys
 from unittest import main, TestCase
 

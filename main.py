@@ -1,4 +1,4 @@
-from sample import hash_generator, ping, wordlist, menu
+from sample import hash_generator, mapping, wordlist, menu
 
 # main run
 # função principal
