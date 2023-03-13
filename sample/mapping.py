@@ -2,6 +2,7 @@
 import os
 
 def mapping():
+    print('Numero 1 foi selecionado')
     pass
 
 def pingmenu():
@@ -22,10 +23,10 @@ def pingmenu():
 def main():
     option = int(input('''Selecione -> 1 para mapeamento de rede:
 Selecione -> 2 para fazer um ping simples no IP:  '''))
+
     if option == 1:
-        print('Numero 1 foi selecionado')
+        mapping()
     elif option == 2:
-        print('Numero 2 foi selecionado')
         pingmenu()
     else:
         print('Opção errada')
