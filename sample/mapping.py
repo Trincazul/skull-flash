@@ -26,6 +26,7 @@ def mapping(iptarget):
             for port in lport:
                 tabela.add_row([port, nm[host][proto][port]['state'], nm[host][proto][port]['name'], nm[host][proto][port]['version'], nm[host][proto][port]['product']])            
             print(tabela)
+            #tabela.csv()
 
 def pingmenu():
     print('''Selecione o sistema operacional

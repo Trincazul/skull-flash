@@ -45,6 +45,16 @@ Atualmente não foi implementada os testes do projeto.
 
 Currently, the project tests have not been implemented.
 ```
+## Usage on Windows Sistem
+
+```sh
+
+pip install -r requirements.txt
+
+python main.py
+
+```
+
 
 ## Author
 
