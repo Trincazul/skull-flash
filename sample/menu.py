@@ -1,6 +1,4 @@
 from sample.mapping import main as mapping
-from sample.webcrawler import start
-
 from sample.MainClass import *
 
 def image():
@@ -62,7 +60,7 @@ def menuindex():
     elif index == 5:
         print("Adicione o site para ler e indexar as paginas lembre-se de utilizar sites com http:// : ")
         url = input()
-        start(url)
+        MainClass.start(url)
     elif index == 6:
         MainClass.phonenum()
     elif index == 7:
