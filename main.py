@@ -1,4 +1,4 @@
-from sample import hash_generator, mapping, wordlist, menu
+from sample import MainClass, mapping, menu
 
 # main run
 # função principal

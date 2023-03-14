@@ -48,5 +48,6 @@ def create_dictionary(clean_list):
     print(top)
 
 if __name__ == '__main__':
-    start()
-    #adicionar url aqui
+    print("Adicione o site para ler e indexar as paginas lembre-se de utilizar sites com http:// : ")
+    url = input()
+    start(url)

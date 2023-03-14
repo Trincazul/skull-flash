@@ -1,10 +1,7 @@
-from sample.hash_generator import hashgen
 from sample.mapping import main as mapping
-from sample.wordlist import wordlist
-from sample.webscr import webscr
 from sample.webcrawler import start
-from sample.phonenum import phonenum
-from sample.ipexter import ipexterno
+
+from sample.MainClass import *
 
 def image():
     print('''
@@ -49,31 +46,27 @@ def menuindex():
         4) Web Scraping (extração de dados)
         5) Web Crawler
         6) Rastreio de Telefone
-        7) Verificar IP externo
+        7) Verificar IP externo da rede atual
         8) Sair do programa''')
     index = int(input())
     if index == 1:
-        hashgen()
+        MainClass.hashgen()
     elif index == 2:
         mapping()
-
     elif index == 3:
-        print("Wordlist")
-        wordlist()
+        MainClass.wordlist()
     elif index == 4:
-        print("Web Scraping")
         url = input("Selecione o site para fazer varredura, lembre-se de adicionar o http:// : ")
         keyword = input("Palavra chave ('tag') da varredura: ")
-        webscr(url, keyword)
+        MainClass.webscr(url, keyword)
     elif index == 5:
         print("Adicione o site para ler e indexar as paginas lembre-se de utilizar sites com http:// : ")
         url = input()
         start(url)
     elif index == 6:
-        print("Rastreio")
-        phonenum()
+        MainClass.phonenum()
     elif index == 7:
-        ipexterno()
+        MainClass.ipexterno()
     elif index == 8:
         print("Muito Obrigado por utilizar o Skull Flash !")
     else:
