@@ -1,9 +1,30 @@
-# import nmap
+import nmap
 import os
 
 def mapping():
-    print('Numero 1 foi selecionado')
-    pass
+    print('Mapeamento de IP')
+    nm = nmap.PortScanner()
+    iptarget = input('Digite o Ip alvo: ')
+    print('Para fazer a verificação da porta digite o inicio e fim, Ex: porta 22 a 9999')
+    portinit = input('Inicio de range de porta do alvo: ')
+    portfini = input('Final de range de porta do alvo: ')
+    # nm.scan(f'{iptarget}', '22-40043', timeout=10)
+    nm.scan(f'{iptarget}', '{portinit}-{portfini}')
+    nm.command_line()
+    nm.scaninfo()
+
+    for host in nm.all_hosts():
+        print('----------------------------------------------------')
+        print('Host : %s (%s)' % (host, nm[host].hostname()))
+        print('State : %s' % nm[host].state())
+        for proto in nm[host].all_protocols():
+            print('----------')
+            print('Protocol : %s' % proto)
+            
+            lport = nm[host][proto].keys()
+            lport.sort()
+            for port in lport:
+                print ('port : %s\tstate : %s' % (port, nm[host][proto][port]['state']))
 
 def pingmenu():
     print('''Selecione o sistema operacional
