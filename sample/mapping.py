@@ -5,13 +5,12 @@ def mapping():
     print('Mapeamento de IP')
     nm = nmap.PortScanner()
     iptarget = input('Digite o Ip alvo: ')
-    print('Para fazer a verificação da porta digite o inicio e fim, Ex: porta 22 a 9999')
-    portinit = input('Inicio de range de porta do alvo: ')
-    portfini = input('Final de range de porta do alvo: ')
-    # nm.scan(f'{iptarget}', '22-40043', timeout=10)
-    nm.scan(f'{iptarget}', '{portinit}-{portfini}')
+
+    nm.scan(f'{iptarget}', '22-40043', timeout=10)
+    hosts = nm.all_hosts()
     nm.command_line()
     nm.scaninfo()
+    print(hosts)
 
     for host in nm.all_hosts():
         print('----------------------------------------------------')
