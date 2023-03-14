@@ -17,18 +17,25 @@
 
 >First, the creation of a project's virtualenv must be done, with the command virtualenv venv, after activating the venv, perform the installation of the project's dependencies with the command pip install -r requirements.txt, then the execution of python main.py 
 
+
 ## Install
+install.sh vai fazer com que instale tudo que é necessário para funcionar o programa
 
+install.sh will install everything needed to run the program
 ```sh
-pip install -r requirements.txt
 
-python main.py
+./install.sh
+
 ```
+Depois da instalação é só rodar o programa com o run.sh
 
+After installation just run the program with run.sh
 ## Usage
 
 ```sh
-pip install -r requirements.txt
+
+./run.sh
+
 ```
 
 ## Run tests
