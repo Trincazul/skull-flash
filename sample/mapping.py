@@ -1,29 +1,31 @@
 import nmap
 import os
+from prettytable import PrettyTable
 
-def mapping():
-    print('Mapeamento de IP')
+
+def mapping(iptarget):
+    print('Fazendo o mapeamento na rede - Aguarde')
     nm = nmap.PortScanner()
-    iptarget = input('Digite o Ip alvo: ')
-
-    nm.scan(f'{iptarget}', '22-40043', timeout=10)
+    
+    scan = nm.scan(iptarget, '22-10000')
     hosts = nm.all_hosts()
     nm.command_line()
     nm.scaninfo()
-    print(hosts)
 
     for host in nm.all_hosts():
         print('----------------------------------------------------')
-        print('Host : %s (%s)' % (host, nm[host].hostname()))
-        print('State : %s' % nm[host].state())
+        print(f'Host : {host} ({nm[host].hostname()})')
+        print(f'State : {nm[host].state()}')
+        tabela = PrettyTable(['Porta', 'Estado', 'Nome', 'Versão', 'Descrição'])
         for proto in nm[host].all_protocols():
             print('----------')
-            print('Protocol : %s' % proto)
+            print(f'Protocol : {proto}')
             
-            lport = nm[host][proto].keys()
+            lport = list(nm[host][proto].keys())
             lport.sort()
             for port in lport:
-                print ('port : %s\tstate : %s' % (port, nm[host][proto][port]['state']))
+                tabela.add_row([port, nm[host][proto][port]['state'], nm[host][proto][port]['name'], nm[host][proto][port]['version'], nm[host][proto][port]['product']])            
+            print(tabela)
 
 def pingmenu():
     print('''Selecione o sistema operacional
@@ -45,8 +47,12 @@ def main():
 Selecione -> 2 para fazer um ping simples no IP:  '''))
 
     if option == 1:
-        mapping()
+        iptarget = input('Digite o Ip alvo: ')
+        mapping(iptarget)
     elif option == 2:
         pingmenu()
     else:
         print('Opção errada')
+
+if __name__ == '__main__':
+    main()

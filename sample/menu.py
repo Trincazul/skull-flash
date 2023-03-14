@@ -44,7 +44,7 @@ def menuindex():
     print('''
  Selecione uma opção :
         1) Criptografia
-        2) Mapeamento de rede IP
+        2) Mapeamento de rede IP (Network Mapper)
         3) Gerar Wordlist (Força Bruta)
         4) Web Scraping (extração de dados)
         5) Web Crawler
