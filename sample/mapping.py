@@ -3,11 +3,11 @@ import os
 from prettytable import PrettyTable
 
 
-def mapping(iptarget):
+def mapping(iptarget,portini,portfin):
     print('Fazendo o mapeamento na rede - Aguarde')
     nm = nmap.PortScanner()
     
-    scan = nm.scan(iptarget, '22-10000')
+    scan = nm.scan(iptarget, f'{portini}-{portfin}')
     hosts = nm.all_hosts()
     nm.command_line()
     nm.scaninfo()
@@ -49,7 +49,9 @@ Selecione -> 2 para fazer um ping simples no IP:  '''))
 
     if option == 1:
         iptarget = input('Digite o Ip alvo: ')
-        mapping(iptarget)
+        portini = input('Porta de inicio para varredura: ')
+        portfin = input('Porta para final de varredura: ')
+        mapping(iptarget,portini,portfin)
     elif option == 2:
         pingmenu()
     else:
