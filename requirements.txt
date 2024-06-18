@@ -5,6 +5,6 @@ idna==3.7
 phonenumbers==8.12.25
 requests==2.31.0
 soupsieve==2.2.1
-urllib3==1.26.18
+urllib3==1.26.19
 python-nmap
 prettytable
