@@ -562,3 +562,7 @@ def export_faraday(report_path: str, workspace: str) -> None:
         console.print(f"[green]✓ Pushed {result['created']} findings to Faraday.[/]")
 
     asyncio.run(_run())
+
+
+if __name__ == "__main__":
+    cli()
