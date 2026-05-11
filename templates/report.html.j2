@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Skull Flash Report</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #c9d1d9; --muted: #8b949e;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922;
+    --blue: #58a6ff; --orange: #ffa657; --purple: #bc8cff;
+    --critical: #f85149; --high: #ffa657; --medium: #d29922;
+    --low: #58a6ff; --info: #8b949e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, monospace; font-size: 14px; line-height: 1.6; padding: 24px; }
+  pre { font-family: 'Cascadia Code', 'Fira Code', monospace; color: var(--green); font-size: 11px; white-space: pre; }
+
+  /* Header */
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; }
+  .header h1 { font-size: 22px; color: var(--blue); letter-spacing: 2px; }
+  .header .meta { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+  /* Executive summary */
+  .summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 24px; min-width: 140px; text-align: center; }
+  .summary-card .value { font-size: 28px; font-weight: bold; }
+  .summary-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Sections */
+  section { margin-bottom: 40px; }
+  section h2 { font-size: 16px; color: var(--blue); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 16px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--surface); color: var(--muted); text-align: left; padding: 8px 12px; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; word-break: break-word; }
+  tr:hover td { background: var(--surface); }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+  .badge-critical { background: rgba(248,81,73,.2); color: var(--critical); }
+  .badge-high     { background: rgba(255,166,87,.2); color: var(--high); }
+  .badge-medium   { background: rgba(210,153,34,.2); color: var(--medium); }
+  .badge-low      { background: rgba(88,166,255,.2); color: var(--low); }
+  .badge-info     { background: rgba(139,148,158,.2); color: var(--info); }
+  .badge-ok       { background: rgba(63,185,80,.2);  color: var(--green); }
+  .badge-fail     { background: rgba(248,81,73,.2);  color: var(--red); }
+
+  /* SVG donut chart */
+  .chart-wrap { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; margin-bottom: 6px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 40px; font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+<pre>
+ ____  _          _ _   _____ _           _
+/ ___|| | ___   _| | | |  ___| | __ _ ___| |__
+\___ \| |/ / | | | | | | |_  | |/ _` / __| '_ \
+ ___) |   <| |_| | | | |  _| | | (_| \__ \ | | |
+|____/|_|\_\\__,_|_|_| |_|   |_|\__,_|___/_| |_|
+</pre>
+<h1>Security Audit Report</h1>
+<div class="meta">
+  Generated: {{ generated_at }} &nbsp;|&nbsp;
+  Skull Flash v{{ version }}
+</div>
+</div>
+
+{# ── Executive Summary ── #}
+<section>
+<h2>Executive Summary</h2>
+<div class="summary">
+
+{% if data.scan is defined %}
+  <div class="summary-card">
+    <div class="value" style="color:var(--blue)">{{ data.scan.hosts | length }}</div>
+    <div class="label">Hosts Found</div>
+  </div>
+  <div class="summary-card">
+    <div class="value" style="color:var(--green)">
+      {% set open = namespace(n=0) %}
+      {% for h in data.scan.hosts %}{% for s in h.services %}{% if s.state == 'open' %}{% set open.n = open.n + 1 %}{% endif %}{% endfor %}{% endfor %}
+      {{ open.n }}
+    </div>
+    <div class="label">Open Ports</div>
+  </div>
+{% endif %}
+
+{% if data.cves is defined %}
+  <div class="summary-card">
+    <div class="value" style="color:var(--red)">
+      {% set cnt = namespace(n=0) %}
+      {% for r in data.cves %}{% set cnt.n = cnt.n + r.cves | length %}{% endfor %}
+      {{ cnt.n }}
+    </div>
+    <div class="label">CVEs Found</div>
+  </div>
+{% endif %}
+
+{% if data.web is defined and data.web.security_score is defined %}
+  <div class="summary-card">
+    <div class="value" style="color:{% if data.web.security_score >= 70 %}var(--green){% elif data.web.security_score >= 40 %}var(--yellow){% else %}var(--red){% endif %}">
+      {{ data.web.security_score }}
+    </div>
+    <div class="label">Web Score /100</div>
+  </div>
+{% endif %}
+
+{% if data.osint is defined and data.osint.subdomains is defined %}
+  <div class="summary-card">
+    <div class="value" style="color:var(--purple)">{{ data.osint.subdomains | length }}</div>
+    <div class="label">Subdomains</div>
+  </div>
+{% endif %}
+
+</div>
+</section>
+
+{# ── Port Scan ── #}
+{% if data.scan is defined and data.scan.hosts %}
+<section>
+<h2>Port Scan — {{ data.scan.target }}</h2>
+{% for host in data.scan.hosts %}
+<p style="margin-bottom:8px;color:var(--muted)">
+  <strong style="color:var(--text)">{{ host.ip }}</strong>
+  {% if host.hostname %} ({{ host.hostname }}){% endif %}
+  — {{ host.state }}
+</p>
+<table style="margin-bottom:24px">
+  <thead><tr><th>Port</th><th>Proto</th><th>State</th><th>Service</th><th>Product / Version</th></tr></thead>
+  <tbody>
+  {% for svc in host.services %}
+  <tr>
+    <td>{{ svc.port }}</td>
+    <td>{{ svc.protocol }}</td>
+    <td>
+      {% if svc.state == 'open' %}<span class="badge badge-ok">{{ svc.state }}</span>
+      {% else %}<span class="badge badge-fail">{{ svc.state }}</span>{% endif %}
+    </td>
+    <td>{{ svc.name }}</td>
+    <td>{{ svc.product }} {{ svc.version }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+</section>
+{% endif %}
+
+{# ── CVE Findings ── #}
+{% if data.cves is defined %}
+{% set all_cves = [] %}
+{% for r in data.cves %}{% for c in r.cves %}{% set _ = all_cves.append((c, r.service, r.version)) %}{% endfor %}{% endfor %}
+{% if all_cves %}
+<section>
+<h2>CVE Findings ({{ all_cves | length }})</h2>
+<table>
+  <thead><tr><th>CVE ID</th><th>Service</th><th>CVSS</th><th>Severity</th><th>Description</th></tr></thead>
+  <tbody>
+  {% for cve, service, version in all_cves | sort(attribute='0.cvss_score', reverse=true) %}
+  <tr>
+    <td><code>{{ cve.cve_id }}</code></td>
+    <td>{{ service }} {{ version }}</td>
+    <td><strong>{{ cve.cvss_score }}</strong></td>
+    <td><span class="badge badge-{{ cve.severity | lower }}">{{ cve.severity }}</span></td>
+    <td>{{ cve.description[:100] }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</section>
+{% endif %}
+{% endif %}
+
+{# ── OSINT ── #}
+{% if data.osint is defined %}
+<section>
+<h2>OSINT — {{ data.osint.target }}</h2>
+
+{% if data.osint.whois %}
+<h3 style="font-size:13px;color:var(--muted);margin:16px 0 8px">WHOIS</h3>
+<table style="max-width:600px;margin-bottom:20px">
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Domain</td><td>{{ data.osint.whois.domain }}</td></tr>
+    <tr><td>Registrar</td><td>{{ data.osint.whois.registrar }}</td></tr>
+    <tr><td>Created</td><td>{{ data.osint.whois.creation_date }}</td></tr>
+    <tr><td>Expires</td><td>{{ data.osint.whois.expiration_date }}</td></tr>
+    <tr><td>Name Servers</td><td>{{ data.osint.whois.name_servers | join('<br>') }}</td></tr>
+  </tbody>
+</table>
+{% endif %}
+
+{% if data.osint.dns and data.osint.dns.records %}
+<h3 style="font-size:13px;color:var(--muted);margin:16px 0 8px">DNS Records</h3>
+<table style="margin-bottom:20px">
+  <thead><tr><th>Type</th><th>Value</th></tr></thead>
+  <tbody>
+  {% for rtype, values in data.osint.dns.records.items() %}
+    {% for val in values %}
+    <tr><td><code>{{ rtype }}</code></td><td>{{ val }}</td></tr>
+    {% endfor %}
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% if data.osint.subdomains %}
+<h3 style="font-size:13px;color:var(--muted);margin:16px 0 8px">Subdomains ({{ data.osint.subdomains | length }})</h3>
+<table>
+  <thead><tr><th>FQDN</th></tr></thead>
+  <tbody>
+  {% for sub in data.osint.subdomains %}
+  <tr><td>{{ sub }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+</section>
+{% endif %}
+
+{# ── Web Security ── #}
+{% if data.web is defined %}
+<section>
+<h2>Web Security — {{ data.web.target }}</h2>
+
+{% if data.web.headers %}
+<h3 style="font-size:13px;color:var(--muted);margin:16px 0 8px">HTTP Security Headers (score {{ data.web.headers.score }}/100)</h3>
+<table style="margin-bottom:20px">
+  <thead><tr><th>Header</th><th>Status</th><th>Value</th></tr></thead>
+  <tbody>
+  {% for header, value in data.web.headers.present.items() %}
+  <tr><td>{{ header }}</td><td><span class="badge badge-ok">✓ Present</span></td><td><code>{{ value }}</code></td></tr>
+  {% endfor %}
+  {% for header in data.web.headers.missing %}
+  <tr><td>{{ header }}</td><td><span class="badge badge-fail">✗ Absent</span></td><td>—</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% if data.web.ssl %}
+<h3 style="font-size:13px;color:var(--muted);margin:16px 0 8px">SSL/TLS Certificate (score {{ data.web.ssl.score }}/100)</h3>
+<table style="max-width:700px">
+  <thead><tr><th>Field</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Valid</td><td>{% if data.web.ssl.valid %}<span class="badge badge-ok">Yes</span>{% else %}<span class="badge badge-fail">No</span>{% endif %}</td></tr>
+    <tr><td>Subject</td><td>{{ data.web.ssl.subject }}</td></tr>
+    <tr><td>Issuer</td><td>{{ data.web.ssl.issuer }}</td></tr>
+    <tr><td>Expires</td><td>{{ data.web.ssl.expiry }}</td></tr>
+    <tr><td>Days Remaining</td><td>{{ data.web.ssl.days_remaining }}</td></tr>
+    <tr><td>Protocol</td><td>{{ data.web.ssl.protocol }}</td></tr>
+    <tr><td>Cipher</td><td>{{ data.web.ssl.cipher }}</td></tr>
+    <tr><td>SANs</td><td>{{ data.web.ssl.san | join(', ') }}</td></tr>
+  </tbody>
+</table>
+{% endif %}
+
+</section>
+{% endif %}
+
+<footer>
+  <strong>DISCLAIMER</strong> — Esta ferramenta destina-se exclusivamente a uso em ambientes com autorização prévia e escrita do proprietário do sistema-alvo.
+  Qualquer uso não autorizado é ilegal e sujeito às penalidades previstas em lei.
+  Skull Flash v{{ version }} | Generated {{ generated_at }}
+</footer>
+
+</body>
+</html>

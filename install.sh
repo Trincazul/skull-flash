@@ -18,4 +18,8 @@ python -m venv venv
 
 source venv/bin/activate
 
-pip install -r requirements.txt
+# Install with dev extras for testing/linting
+pip install -e ".[dev]"
+
+echo ""
+echo "Instalação concluída. Use './run.sh --help' para ver os comandos disponíveis."

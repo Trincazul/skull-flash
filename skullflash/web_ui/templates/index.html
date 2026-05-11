@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Skull Flash Dashboard</title>
+<style>
+:root{--bg:#0d1117;--surf:#161b22;--surf2:#1c2230;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--orange:#ffa657;--purple:#bc8cff;--critical:#f85149;--high:#ffa657;--medium:#d29922;--low:#58a6ff;--info:#8b949e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;display:flex;flex-direction:column;min-height:100vh}
+pre,code{font-family:'Cascadia Code','Fira Code',monospace}
+a{color:var(--blue);text-decoration:none}
+
+/* ── Layout ── */
+.header{background:var(--surf);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:16px}
+.logo{color:var(--green);font-family:monospace;font-size:11px;white-space:pre;line-height:1.2}
+.header-title{color:var(--blue);font-size:18px;font-weight:700;letter-spacing:2px}
+.header-sub{color:var(--muted);font-size:11px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);margin-left:auto}
+.status-dot.live{background:var(--green);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.main{display:grid;grid-template-columns:320px 1fr;gap:0;flex:1}
+.sidebar{background:var(--surf);border-right:1px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:20px}
+.content{padding:20px;display:flex;flex-direction:column;gap:20px;overflow:auto}
+
+/* ── Form ── */
+.card{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:16px}
+.card-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-weight:600}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.form-group input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;outline:none}
+.form-group input[type=text]:focus{border-color:var(--blue)}
+.checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.checkbox-label{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}
+.checkbox-label input{accent-color:var(--blue)}
+.btn{width:100%;padding:9px;background:var(--blue);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.5px}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-sm{display:inline-block;padding:5px 12px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surf);color:var(--text)}
+.btn-sm:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── Gauge ── */
+.gauge-wrap{text-align:center}
+.gauge-wrap svg{width:160px;height:100px}
+#gauge-label{font-size:28px;font-weight:700;color:var(--green)}
+#gauge-risk{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+/* ── Feed ── */
+.feed{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px;max-height:260px;overflow-y:auto;font-size:12px;font-family:monospace}
+.feed-item{padding:3px 0;border-bottom:1px solid var(--border);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-item.ev-port_open{color:var(--green)}
+.feed-item.ev-finding{color:var(--orange)}
+.feed-item.ev-error{color:var(--red)}
+.feed-item.ev-status{color:var(--blue)}
+.feed-item.ev-done{color:var(--purple)}
+
+/* ── Findings table ── */
+.findings-section{flex:1}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--surf);color:var(--muted);text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:var(--surf2)}
+.empty-row td{color:var(--muted);text-align:center;padding:24px}
+
+/* ── Badges ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.sev-CRITICAL{background:rgba(248,81,73,.2);color:var(--critical)}
+.sev-HIGH    {background:rgba(255,166,87,.2);color:var(--high)}
+.sev-MEDIUM  {background:rgba(210,153,34,.2);color:var(--medium)}
+.sev-LOW     {background:rgba(88,166,255,.2);color:var(--low)}
+.sev-INFO    {background:rgba(139,148,158,.2);color:var(--info)}
+
+/* ── Summary ── */
+#summary-text{background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13px;color:var(--muted);min-height:48px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <pre class="logo"> _____ _          _ _   _____ _           _
+/ ____| |        | | | |  ___| |         | |
+| (___  | | ___  _| | | | |_  | | __ _ ___| |__
+ \___ \ | |/ / | | | | | |  __| |/ _` / __| '_ \
+ ____) ||   <| |_| | | | |  | | (_| \__ \ | | |
+|_____/ |_|\_\\__,_|_|_| |_|  |_|\__,_|___/_| |_|</pre>
+  <div>
+    <div class="header-title">SKULL FLASH</div>
+    <div class="header-sub">Security Auditing Dashboard v2.0</div>
+  </div>
+  <div id="conn-dot" class="status-dot" title="Idle"></div>
+</div>
+
+<div class="main">
+
+  <!-- ── Sidebar ── -->
+  <div class="sidebar">
+
+    <div class="card">
+      <div class="card-title">Novo Scan</div>
+      <div class="form-group">
+        <label>Alvo (IP / CIDR / domínio)</label>
+        <input type="text" id="target" placeholder="192.168.1.1" value="127.0.0.1"/>
+      </div>
+      <div class="form-group">
+        <label>Portas</label>
+        <input type="text" id="ports" placeholder="1-1000" value="1-1000"/>
+      </div>
+      <div class="form-group">
+        <label>Módulos</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-label"><input type="checkbox" id="chk-osint"/> OSINT</label>
+          <label class="checkbox-label"><input type="checkbox" id="chk-ssl" checked/> SSL</label>
+          <label class="checkbox-label"><input type="checkbox" id="chk-cve"/> CVEs</label>
+          <label class="checkbox-label"><input type="checkbox" id="chk-web" checked/> Headers</label>
+        </div>
+      </div>
+      <button class="btn" id="btn-scan" onclick="startScan()">▶  Iniciar Scan</button>
+    </div>
+
+    <div class="card gauge-wrap">
+      <div class="card-title">Risk Score</div>
+      <svg viewBox="0 0 200 110" id="gauge-svg">
+        <path d="M 20,100 A 80,80 0 0,1 180,100" stroke="#2a2f3a" stroke-width="18" fill="none" stroke-linecap="round"/>
+        <path id="gauge-arc" d="M 20,100 A 80,80 0 0,1 20.001,100" stroke="#3fb950" stroke-width="18" fill="none" stroke-linecap="round"/>
+        <text id="gauge-label" x="100" y="92" text-anchor="middle" font-size="28" font-weight="700" fill="#3fb950">0</text>
+        <text x="100" y="108" text-anchor="middle" font-size="10" fill="#8b949e">/ 100</text>
+      </svg>
+      <div id="gauge-risk">BAIXO</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Export</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-sm" onclick="exportReport('json')">JSON</button>
+        <button class="btn-sm" onclick="exportReport('html')">HTML</button>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+  <!-- ── Content ── -->
+  <div class="content">
+
+    <div class="card">
+      <div class="card-title">Resumo Executivo</div>
+      <div id="summary-text">Execute um scan para ver o resumo aqui.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Feed ao vivo</div>
+      <div class="feed" id="feed"><div class="feed-item">Aguardando scan…</div></div>
+    </div>
+
+    <div class="findings-section card">
+      <div class="card-title">Findings <span id="findings-count" style="color:var(--muted)"></span></div>
+      <table id="findings-table">
+        <thead>
+          <tr><th>ID</th><th>Título</th><th>Severidade</th><th>Assets</th><th>CVSS</th></tr>
+        </thead>
+        <tbody id="findings-body">
+          <tr class="empty-row"><td colspan="5">Nenhum finding ainda.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script src="/static/app.js"></script>
+</body>
+</html>

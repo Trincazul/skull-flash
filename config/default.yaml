@@ -1,0 +1,8 @@
+scan_timeout: 30
+request_timeout: 10
+max_concurrent_tasks: 50
+rate_limit_per_second: 10
+allowed_targets: []
+blocked_targets: []
+default_output_dir: "./skull-flash-reports"
+log_level: "INFO"

@@ -1,0 +1,212 @@
+{
+  "WordPress": {
+    "headers": {"X-Pingback": ".*", "X-WP-Total": ".*", "Link": "wp-json"},
+    "cookies": ["wordpress_.*", "wp-settings-.*", "wordpress_logged_in"],
+    "paths": ["/wp-login.php", "/wp-admin/", "/wp-content/"],
+    "meta": {"generator": "WordPress"},
+    "confidence_base": 90
+  },
+  "Drupal": {
+    "headers": {"X-Generator": "Drupal", "X-Drupal-Cache": ".*"},
+    "cookies": ["SESS[a-f0-9]+", "Drupal\\.visitor"],
+    "paths": ["/user/login", "/sites/default/"],
+    "meta": {"generator": "Drupal"},
+    "confidence_base": 85
+  },
+  "Joomla": {
+    "headers": {},
+    "cookies": ["joomla_.*"],
+    "paths": ["/administrator/", "/components/", "/modules/"],
+    "meta": {"generator": "Joomla"},
+    "confidence_base": 80
+  },
+  "Magento": {
+    "headers": {},
+    "cookies": ["frontend", "PHPSESSID", "store"],
+    "paths": ["/skin/frontend/", "/downloader/", "/admin/"],
+    "meta": {"generator": "Magento"},
+    "confidence_base": 75
+  },
+  "Shopify": {
+    "headers": {"Server": "Shopify"},
+    "cookies": ["_shopify_.*", "cart"],
+    "paths": ["/cdn/shop/", "/checkouts/"],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "Wix": {
+    "headers": {"X-Wix-Request-Id": ".*"},
+    "cookies": ["hs", "svSession"],
+    "paths": ["/_api/", "/_partials/"],
+    "meta": {"generator": "Wix"},
+    "confidence_base": 90
+  },
+  "nginx": {
+    "headers": {"Server": "nginx"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "Apache": {
+    "headers": {"Server": "Apache"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "IIS": {
+    "headers": {"Server": "IIS", "X-Powered-By": "ASP\\.NET"},
+    "cookies": ["ASP\\.NET_SessionId"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "LiteSpeed": {
+    "headers": {"Server": "LiteSpeed"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "Caddy": {
+    "headers": {"Server": "Caddy"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "PHP": {
+    "headers": {"X-Powered-By": "PHP"},
+    "cookies": ["PHPSESSID"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "Python / Django": {
+    "headers": {"Server": "WSGIServer", "X-Frame-Options": "SAMEORIGIN"},
+    "cookies": ["csrftoken", "sessionid"],
+    "paths": ["/admin/login/"],
+    "meta": {},
+    "confidence_base": 70
+  },
+  "Ruby on Rails": {
+    "headers": {"X-Powered-By": "Phusion Passenger"},
+    "cookies": ["_[a-z_]+_session"],
+    "paths": ["/assets/application-.*\\.js"],
+    "meta": {},
+    "confidence_base": 75
+  },
+  "Laravel": {
+    "headers": {},
+    "cookies": ["laravel_session", "XSRF-TOKEN"],
+    "paths": ["/storage/", "/public/"],
+    "meta": {},
+    "confidence_base": 80
+  },
+  "Spring Boot": {
+    "headers": {"X-Application-Context": ".*"},
+    "cookies": ["JSESSIONID"],
+    "paths": ["/actuator/", "/health"],
+    "meta": {},
+    "confidence_base": 80
+  },
+  "Express.js": {
+    "headers": {"X-Powered-By": "Express"},
+    "cookies": ["connect.sid"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "ASP.NET": {
+    "headers": {"X-Powered-By": "ASP\\.NET", "X-AspNet-Version": ".*"},
+    "cookies": ["ASP\\.NET_SessionId", "__RequestVerificationToken"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "Cloudflare": {
+    "headers": {"Server": "cloudflare", "CF-RAY": ".*"},
+    "cookies": ["__cflb", "__cfuid", "cf_clearance"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "AWS CloudFront": {
+    "headers": {"Via": "CloudFront", "X-Cache": "(Hit|Miss) from cloudfront"},
+    "cookies": ["AWSALB", "AWSALBCORS"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "Akamai": {
+    "headers": {"Server": "AkamaiGHost", "X-Check-Cacheable": ".*"},
+    "cookies": ["ak_bmsc", "bm_sz"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "Fastly": {
+    "headers": {"X-Served-By": "cache-.*", "Fastly-Debug-Digest": ".*"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 85
+  },
+  "Imperva": {
+    "headers": {"X-Iinfo": ".*", "X-CDN": "Incapsula"},
+    "cookies": ["incap_ses", "visid_incap"],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "Varnish": {
+    "headers": {"X-Varnish": ".*", "Via": ".*varnish.*", "Age": ".*"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 85
+  },
+  "Squid": {
+    "headers": {"Via": ".*squid.*", "X-Squid-Error": ".*"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 90
+  },
+  "React": {
+    "headers": {},
+    "cookies": [],
+    "paths": ["/static/js/main\\..*\\.js", "/static/js/chunk.*\\.js"],
+    "meta": {},
+    "confidence_base": 70
+  },
+  "Next.js": {
+    "headers": {"X-Powered-By": "Next\\.js"},
+    "cookies": ["__next_preview_data"],
+    "paths": ["/_next/static/"],
+    "meta": {},
+    "confidence_base": 85
+  },
+  "Nuxt.js": {
+    "headers": {"X-Powered-By": "Nuxt\\.js"},
+    "cookies": [],
+    "paths": ["/_nuxt/"],
+    "meta": {},
+    "confidence_base": 85
+  },
+  "OpenResty": {
+    "headers": {"Server": "openresty"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  },
+  "Traefik": {
+    "headers": {"Server": "traefik"},
+    "cookies": [],
+    "paths": [],
+    "meta": {},
+    "confidence_base": 95
+  }
+}

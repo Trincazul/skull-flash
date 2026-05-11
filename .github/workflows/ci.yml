@@ -1,0 +1,35 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install nmap
+        run: sudo apt-get update && sudo apt-get install -y nmap
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: ruff check skullflash/
+
+      - name: Security scan (bandit)
+        run: bandit -r skullflash/ -ll
+
+      - name: Dependency audit (pip-audit)
+        run: pip-audit
+
+      - name: Run tests
+        run: pytest
