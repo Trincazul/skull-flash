@@ -6,5 +6,7 @@ phonenumbers==8.12.25
 requests==2.31.0
 soupsieve==2.2.1
 urllib3==1.26.19
-python-nmap
-prettytable
+python-nmap>=0.7.1
+prettytable>=3.0.0
+python-whois>=0.9.0
+dnspython>=2.0.0
