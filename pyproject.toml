@@ -51,6 +51,9 @@ all = [
 [project.scripts]
 skull-flash = "skullflash.cli:cli"
 
+[tool.hatch.build.targets.wheel]
+packages = ["skullflash"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
